@@ -2,7 +2,7 @@ import unittest
 from io import StringIO
 from unittest.mock import patch
 
-from combine_names import combine_names
+from combine import *
 
 
 class TestCombineNames(unittest.TestCase):
