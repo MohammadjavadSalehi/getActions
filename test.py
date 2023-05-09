@@ -1,6 +1,7 @@
 import unittest
 from io import StringIO
 from unittest.mock import patch
+from combine_names import combine_names
 
 
 class TestCombineNames(unittest.TestCase):
