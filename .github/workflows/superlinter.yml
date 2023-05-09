@@ -1,24 +1,26 @@
-name: Super-Linter
+name: Python Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  super-lint:
-    name: Lint code base
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  build:
 
-      - name: Run Super-Linter
-        uses: github/super-linter@v3.17.0
-        env:
-          DEFAULT_BRANCH: main
-          VALIDATE_ALL_CODEBASE: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run test
+      run: python -m unittest discover -s test
