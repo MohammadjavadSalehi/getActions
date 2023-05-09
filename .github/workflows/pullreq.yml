@@ -1,0 +1,39 @@
+name: Create Pull Request
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create branch
+        run: git checkout -b my-new-branch
+
+      - name: Make changes to code
+        # Perform any necessary changes to your code here
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update code"
+
+      - name: Push changes to branch
+        uses: ad-m/github-push-action@master
+        with:
+          branch: my-new-branch
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Update code
+          body: Please review these changes.
+          branch: my-new-branch
+          base: main
