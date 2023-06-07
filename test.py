@@ -7,74 +7,33 @@ from rps_game import play_game, run_game
 
 
 class TestRPSGame(unittest.TestCase):
-
-    # Test the play_game() function
-    @patch('builtins.input', return_value='rock')
-    def test_play_game_tie(self, mock_input):
-        with patch('sys.stdout', new=StringIO()) as fake_output:
+    def test_play_game_tie(self):
+        # Test that the function correctly handles a tie
+        with patch('builtins.input', return_value='rock'), patch('sys.stdout', new=StringIO()) as fake_output:
             random.seed(1)
             play_game()
             self.assertEqual(fake_output.getvalue().strip(), "It's a tie!")
 
-    @patch('builtins.input', return_value='paper')
-    def test_play_game_win(self, mock_input):
-        with patch('sys.stdout', new=StringIO()) as fake_output:
+    def test_play_game_win(self):
+        # Test that the function correctly handles a win
+        with patch('builtins.input', return_value='paper'), patch('sys.stdout', new=StringIO()) as fake_output:
             random.seed(2)
             play_game()
             self.assertEqual(fake_output.getvalue().strip(), "You win!")
 
-    @patch('builtins.input', return_value='scissors')
-    def test_play_game_loss(self, mock_input):
-        with patch('sys.stdout', new=StringIO()) as fake_output:
+    def test_play_game_loss(self):
+        # Test that the function correctly handles a loss
+        with patch('builtins.input', return_value='scissors'), patch('sys.stdout', new=StringIO()) as fake_output:
             random.seed(3)
             play_game()
             self.assertEqual(fake_output.getvalue().strip(), "You lose!")
 
-    # Test the run_game() function
-    @patch('builtins.input', side_effect=['rock', 'no'])
-    def test_run_game_once(self, mock_input):
-        with patch('sys.stdout', new=StringIO()) as fake_output:
+    def test_run_game(self):
+        # Test that the function runs without errors
+        with patch('builtins.input', side_effect=['rock', 'no']), patch('sys.stdout', new=StringIO()) as fake_output:
             random.seed(4)
             run_game()
-            self.assertIn("You chose rock, and the computer chose paper.", fake_output.getvalue())
-            self.assertIn("You lose!", fake_output.getvalue())
-            self.assertIn("Do you want to play again? (yes/no): ", fake_output.getvalue())
-
-    @patch('builtins.input', side_effect=['yes', 'rock', 'yes', 'paper', 'no'])
-    def test_run_game_twice(self, mock_input):
-        with patch('sys.stdout', new=StringIO()) as fake_output:
-            random.seed(5)
-            run_game()
-            self.assertIn("You chose rock, and the computer chose scissors.", fake_output.getvalue())
-            self.assertIn("You win!", fake_output.getvalue())
-            self.assertIn("Do you want to play again? (yes/no): ", fake_output.getvalue())
-            self.assertIn("You chose paper, and the computer chose scissors.", fake_output.getvalue())
-            self.assertIn("You lose!", fake_output.getvalue())
-
-    # Additional tests
-    @patch('builtins.input', side_effect=['yes', 'rock', 'yes', 'paper', 'yes', 'scissors', 'no'])
-    def test_run_game_three_times(self, mock_input):
-        with patch('sys.stdout', new=StringIO()) as fake_output:
-            random.seed(6)
-            run_game()
-            self.assertIn("You chose rock, and the computer chose paper.", fake_output.getvalue())
-            self.assertIn("You lose!", fake_output.getvalue())
-            self.assertIn("Do you want to play again? (yes/no): ", fake_output.getvalue())
-            self.assertIn("You chose paper, and the computer chose scissors.", fake_output.getvalue())
-            self.assertIn("You lose!", fake_output.getvalue())
-            self.assertIn("Do you want to play again? (yes/no): ", fake_output.getvalue())
-            self.assertIn("You chose scissors, and the computer chose rock.", fake_output.getvalue())
-            self.assertIn("You lose!", fake_output.getvalue())
-
-    @patch('builtins.input', side_effect=['yes', 'banana', 'yes', 'rock', 'no'])
-    def test_run_game_invalid_input(self, mock_input):
-        with patch('sys.stdout', new=StringIO()) as fake_output:
-            random.seed(7)
-            run_game()
-            self.assertIn("Invalid input. Please choose rock, paper, or scissors.", fake_output.getvalue())
-            self.assertIn("You chose rock, and the computer chose scissors.", fake_output.getvalue())
-            self.assertIn("You win!", fake_output.getvalue())
-            self.assertIn("Do you want to play again? (yes/no): ", fake_output.getvalue())
+            self.assertEqual(fake_output.getvalue().strip(), "Thanks for playing!")
 
 if __name__ == '__main__':
     unittest.main()

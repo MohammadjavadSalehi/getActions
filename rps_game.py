@@ -1,6 +1,4 @@
 import random
-
-
 def play_game():
     choices = ['rock', 'paper', 'scissors']
     computer_choice = random.choice(choices)
