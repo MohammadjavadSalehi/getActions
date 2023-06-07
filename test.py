@@ -1,36 +1,28 @@
 import unittest
-from unittest.mock import patch
-from io import StringIO
-import random
+from calc import add, subtract, multiply, divide
 
-from rps_game import play_game, run_game
+class TestCalculator(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(add(2, 3), 5)
+        self.assertEqual(add(-1, 1), 0)
+        self.assertEqual(add(-1, -1), -2)
 
+    def test_subtract(self):
+        self.assertEqual(subtract(5, 3), 2)
+        self.assertEqual(subtract(-1, 1), -2)
+        self.assertEqual(subtract(-1, -1), 0)
 
-class TestRPSGame(unittest.TestCase):
-    def test_play_game_tie(self):
-        # Test that the function correctly handles a tie
-        with patch('random.choice', return_value='rock'), patch('sys.stdout', new=StringIO()) as fake_output:
-            play_game('rock')
-            self.assertEqual(fake_output.getvalue().strip(), "It's a tie!")
+    def test_multiply(self):
+        self.assertEqual(multiply(2, 3), 6)
+        self.assertEqual(multiply(-1, 1), -1)
+        self.assertEqual(multiply(-1, -1), 1)
 
-    def test_play_game_win(self):
-        # Test that the function correctly handles a win
-        with patch('random.choice', return_value='scissors'), patch('sys.stdout', new=StringIO()) as fake_output:
-            play_game('rock')
-            self.assertEqual(fake_output.getvalue().strip(), "You win!")
-
-    def test_play_game_loss(self):
-        # Test that the function correctly handles a loss
-        with patch('random.choice', return_value='paper'), patch('sys.stdout', new=StringIO()) as fake_output:
-            play_game('rock')
-            self.assertEqual(fake_output.getvalue().strip(), "You lose!")
-
-    def test_run_game(self):
-        # Test that the function runs without errors
-        with patch('builtins.input', side_effect=['rock', 'no']), patch('sys.stdout', new=StringIO()) as fake_output:
-            random.seed(4)
-            run_game()
-            self.assertEqual(fake_output.getvalue().strip(), "Thanks for playing!")
+    def test_divide(self):
+        self.assertEqual(divide(6, 3), 2)
+        self.assertEqual(divide(-1, 1), -1)
+        self.assertEqual(divide(-1, -1), 1)
+        with self.assertRaises(ValueError):
+            divide(1, 0)
 
 if __name__ == '__main__':
     unittest.main()
