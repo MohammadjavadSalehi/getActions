@@ -28,13 +28,14 @@ class TestRPSGame(unittest.TestCase):
             self.assertEqual(fake_output.getvalue().strip(), "You lose!")
 
     # Test the run_game() function
-    @patch('builtins.input', side_effect=['yes', 'rock', 'no'])
-    def test_run_game_once(self, mock_input):
+    def test_run_game_once(self):
         with patch('sys.stdout', new=StringIO()) as fake_output:
             random.seed(4)
-            run_game()
-            self.assertIn("You chose rock, and the computer chose paper.", fake_output.getvalue())
-            self.assertIn("You lose!", fake_output.getvalue())
+            with patch('builtins.input', side_effect=['rock']):
+                run_game()
+                self.assertIn("You chose rock, and the computer chose paper.", fake_output.getvalue())
+                self.assertIn("You lose!", fake_output.getvalue())
+                self.assertIn("Do you want to play again? (yes/no): ", fake_output.getvalue())
 
     @patch('builtins.input', side_effect=['yes', 'rock', 'yes', 'paper', 'no'])
     def test_run_game_twice(self, mock_input):
