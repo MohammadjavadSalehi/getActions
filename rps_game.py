@@ -1,8 +1,8 @@
 import random
-def play_game():
+
+def play_game(user_choice):
     choices = ['rock', 'paper', 'scissors']
     computer_choice = random.choice(choices)
-    user_choice = input("Choose rock, paper, or scissors: ")
     print(f"\nYou chose {user_choice}, and the computer chose {computer_choice}.\n")
 
     if user_choice == computer_choice:
@@ -14,13 +14,12 @@ def play_game():
     else:
         print("You lose!")
 
-
 def run_game():
     play_again = 'yes'
     while play_again == 'yes':
-        play_game()
+        user_choice = input("Choose rock, paper, or scissors: ")
+        play_game(user_choice)
         play_again = input("\nDo you want to play again? (yes/no): ")
     print("Thanks for playing!")
-
 
 run_game()
