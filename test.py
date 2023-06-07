@@ -31,7 +31,7 @@ class TestRPSGame(unittest.TestCase):
     def test_run_game_once(self):
         with patch('sys.stdout', new=StringIO()) as fake_output:
             random.seed(4)
-            with patch('builtins.input', side_effect=['rock']):
+            with patch('builtins.input', return_value='rock'):
                 run_game()
                 self.assertIn("You chose rock, and the computer chose paper.", fake_output.getvalue())
                 self.assertIn("You lose!", fake_output.getvalue())
